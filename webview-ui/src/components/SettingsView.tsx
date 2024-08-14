@@ -1,4 +1,4 @@
-import { VSCodeButton, VSCodeLink, VSCodeTextArea, VSCodeTextField } from "@vscode/webview-ui-toolkit/react"
+import { VSCodeButton, VSCodeLink, VSCodeTextArea, VSCodeTextField, VSCodeCheckbox } from "@vscode/webview-ui-toolkit/react"
 import React, { useEffect, useState } from "react"
 import { ApiConfiguration } from "../../../src/shared/api"
 import { validateApiConfiguration, validateMaxRequestsPerTask } from "../utils/validate"
@@ -128,7 +128,7 @@ const SettingsView = ({
 					</p>
 				</div>
 
-				<div>
+				<div style={{ marginBottom: 15 }}>
 					<VSCodeTextField
 						value={maxRequestsPerTask}
 						style={{ width: "100%" }}
@@ -156,6 +156,17 @@ const SettingsView = ({
 						</p>
 					)}
 				</div>
+
+				{/* Added Prompt Caching Toggle */}
+				<div>
+					<VSCodeCheckbox
+						checked={apiConfiguration?.enablePromptCaching || false}
+						onChange={(e) => setApiConfiguration((prev) => ({ ...prev, enablePromptCaching: e.target.checked }))}
+					>
+						Enable Prompt Caching (Beta)
+					</VSCodeCheckbox>
+				</div>
+
 			</div>
 
 			<div
