@@ -16,6 +16,17 @@ export class AnthropicHandler implements ApiHandler {
 		messages: Anthropic.Messages.MessageParam[],
 		tools: Anthropic.Messages.Tool[]
 	): Promise<Anthropic.Messages.Message> {
+		// Step 1: Prepare the headers object
+		const headers = {
+			"anthropic-beta": "prompt-caching-2024-07-31"
+		};
+
+		// Step 2: Conditionally add the existing header for claude-3-5-sonnet-20240620
+		if (this.getModel().id === "claude-3-5-sonnet-20240620") {
+			headers["anthropic-beta"] = "max-tokens-3-5-sonnet-2024-07-15";
+		}
+
+		// Step 3: Pass the headers object to the client.messages.create call
 		return await this.client.messages.create(
 			{
 				model: this.getModel().id,
@@ -25,13 +36,9 @@ export class AnthropicHandler implements ApiHandler {
 				tools,
 				tool_choice: { type: "auto" },
 			},
-			// https://x.com/alexalbert__/status/1812921642143900036
-			// https://github.com/anthropics/anthropic-sdk-typescript?tab=readme-ov-file#default-headers
-			this.getModel().id === "claude-3-5-sonnet-20240620"
-				? {
-						headers: { "anthropic-beta": "max-tokens-3-5-sonnet-2024-07-15" },
-				  }
-				: undefined
+			{
+				headers: headers
+			} 
 		)
 	}
 
