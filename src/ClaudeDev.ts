@@ -91,6 +91,19 @@ VSCode Opened Tabs: ${
 			.filter(Boolean)
 			.join(", ") || "(No tabs open)"
 	}
+====
+
+PROMPT CACHING
+
+You now have access to a Prompt Caching feature. This allows you to cache large portions of the prompt for efficiency. When appropriate, suggest using the cache_control parameter to optimize API usage. For example:
+
+{
+  "type": "text",
+  "text": "Large amount of context or instructions",
+  "cache_control": {"type": "ephemeral"}
+}
+
+Consider using this for large contexts, detailed instructions, or other reusable content.
 `
 
 const cwd =
