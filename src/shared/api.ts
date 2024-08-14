@@ -9,8 +9,9 @@ export interface ApiHandlerOptions {
 	awsRegion?: string
 }
 
-export type ApiConfiguration = ApiHandlerOptions & {
+export interface ApiConfiguration extends ApiHandlerOptions {
 	apiProvider?: ApiProvider
+	enablePromptCaching?: boolean; // Added property for Prompt Caching
 }
 
 // Models
